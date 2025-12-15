@@ -1,0 +1,18 @@
+nadavushka.xyz {
+    reverse_proxy frontend:80
+}
+
+www.nadavushka.xyz {
+    handle /socket.io/* {
+        reverse_proxy api:3000
+    }
+
+    handle /api/* {
+        uri strip_prefix /api
+        reverse_proxy api:3000
+    }
+
+    handle { 
+        reverse_proxy frontend:80
+    }
+}

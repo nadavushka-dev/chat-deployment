@@ -1,0 +1,52 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  api:
+    env_file: .env
+    restart: unless-stopped
+    environment:
+      - PRISMA_QUERY_ENGINE_LIBRARY=/app/node_modules/.prisma/client/libquery_engine-linux-musl-openssl-3.0.x.so.node
+    build: ./backend
+    ports:
+      - "3000:3000"      # expose backend to host port 3000
+    depends_on:
+      - db
+    networks:
+      - internal
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+    networks:
+      - internal          # share network with api
+  frontend:                       # NEW
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost/api}
+        VITE_APP_NAME: ${VITE_APP_NAME:-MyApp}
+    restart: unless-stopped
+    networks:
+      - internal
+
+volumes:
+  caddy_data:
+    
+networks:
+  internal:
