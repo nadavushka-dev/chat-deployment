@@ -12,7 +12,7 @@ services:
       - internal
 
   api:
-    image: ghcr.io/nadavushka-dev/chat-backend/:latest
+    image: ghcr.io/nadavushka-dev/chat-backend:latest
     env_file: .env
     restart: unless-stopped
     environment:
@@ -35,7 +35,7 @@ services:
     networks:
       - internal # share network with api
   frontend: # NEW
-    image: ghcr.io/nadavushka-dev/chat-frontend/:latest
+    image: ghcr.io/nadavushka-dev/chat-frontend:latest
     restart: unless-stopped
     networks:
       - internal
