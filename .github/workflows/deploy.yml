@@ -1,0 +1,35 @@
+# Workflow name (shows in GitHub Actions UI)
+name: Deploy to VPS
+
+# Trigger: Run this workflow on every push to main branch
+on:
+  push:
+    branches:
+      - master
+
+# Define the jobs to run
+jobs:
+  deploy:
+    # Run on Ubuntu latest
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Clone the deployment repo code (docker-compose.yml, Caddyfile, etc)
+      - uses: actions/checkout@v4
+
+      # Step 2: SSH into VPS and deploy
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }} # Your VPS IP or domain
+          username: ${{ secrets.VPS_USER }} # SSH user (root or your username)
+          key: ${{ secrets.VPS_SSH_KEY }} # Your private SSH key
+          script: |
+            # Navigate to deployment directory on VPS
+            cd ~/apps/chat-app
+            # Pull latest deployment config from GitHub
+            git pull origin main
+            # Pull latest images from GitHub Container Registry
+            docker compose pull
+            # Start/restart containers with new images
+            docker compose up -d
