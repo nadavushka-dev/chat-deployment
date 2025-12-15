@@ -24,6 +24,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }} # Your VPS IP or domain
           username: ${{ secrets.VPS_USER }} # SSH user (root or your username)
           key: ${{ secrets.VPS_SSH_KEY }} # Your private SSH key
+          port: 2222
           script: |
             # Navigate to deployment directory on VPS
             cd ~/apps/chat-app
