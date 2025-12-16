@@ -1,6 +1,5 @@
 #!bin/bash
 
-cd ~/apps/chat-app
 # Login to GitHub Container Registry
 echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 # Pull latest deployment config from GitHub
