@@ -23,6 +23,11 @@ services:
       - db
     networks:
       - internal
+    healtcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
