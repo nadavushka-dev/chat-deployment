@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 # Login to GitHub Container Registry
 echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
