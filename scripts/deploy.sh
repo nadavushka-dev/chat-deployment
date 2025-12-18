@@ -10,4 +10,4 @@ docker compose pull
 docker compose run api npx prisma migrate deploy
 # Start/restart containers with new images
 docker compose up -d
-./script/health-checker.sh
+./scripts/health-checker.sh
