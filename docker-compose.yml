@@ -23,7 +23,7 @@ services:
       - db
     networks:
       - internal
-    healtcheck:
+    healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 10s
       timeout: 5s
