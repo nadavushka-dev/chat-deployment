@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Login to GitHub Container Registry
-echo "$GITHUB_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
 # Pull latest deployment config from GitHub
 git pull origin master
 # Pull latest images from GitHub Container Registry
