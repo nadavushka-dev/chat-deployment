@@ -26,9 +26,9 @@ jobs:
           username: ${{ secrets.VPS_USER }} # SSH user (root or your username)
           key: ${{ secrets.VPS_SSH_KEY }} # Your private SSH key
           port: 2222
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            GITHUB_ACTOR: ${{ github.actor }}
           script: |
             cd ~/apps/chat-app
             ./scripts/deploy.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
